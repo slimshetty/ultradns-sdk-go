@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-
 )
 
 // ZoneService provides access to Zone resources
@@ -55,10 +54,10 @@ func (k ZoneKey) QueryURI(offset int, limit int) string {
 }
 
 // SelectWithOffset requests zone rrsets by ZoneKey & optional offset
-func (s *ZoneService) SelectWithOffset(k ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
+func (s *ZoneService) SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
 	var zoneld ZoneListDTO
 
-	uri := k.QueryURI(offset,limit)
+	uri := k.QueryURI(offset, limit)
 	res, err := s.client.get(uri, &zoneld)
 
 	zones := []Zone{}
