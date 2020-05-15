@@ -99,7 +99,7 @@ func NewClient(username, password, baseURL string) (*Client, error) {
 	c.Notifications = &NotificationsService{client: c}
 	c.Probes = &ProbesService{client: c}
 	c.RRSets = &RRSetsService{client: c}
-	c.Zone = &ZoneService{ client: c}
+	c.Zone = &ZoneService{client: c}
 	c.Tasks = &TasksService{client: c}
 	return c, nil
 }
@@ -123,7 +123,7 @@ func newStubClient(username, password, baseURL, clientID, clientSecret string) (
 	c.Notifications = &NotificationsService{client: c}
 	c.Probes = &ProbesService{client: c}
 	c.RRSets = &RRSetsService{client: c}
-	c.Zone = &ZoneService{ client: c}
+	c.Zone = &ZoneService{client: c}
 	c.Tasks = &TasksService{client: c}
 	return c, nil
 }
