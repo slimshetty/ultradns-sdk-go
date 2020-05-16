@@ -3,7 +3,9 @@ package udnssdk
 import (
 	"fmt"
 	"net/http"
-	"time"
+	_ "time"
+	"log"
+
 )
 
 // ZoneService provides access to Zone resources
@@ -21,7 +23,7 @@ type Zone struct {
 		Status               string    `json:"status"`
 		Owner                string    `json:"owner"`
 		ResourceRecordCount  int       `json:"resourceRecordCount"`
-		LastModifiedDateTime time.Time `json:"lastModifiedDateTime"`
+		LastModifiedDateTime string    `json:"lastModifiedDateTime"`
 	} `json:"properties"`
 }
 
@@ -57,12 +59,14 @@ func (k ZoneKey) QueryURI(offset int, limit int) string {
 func (s *ZoneService) SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
 	var zoneld ZoneListDTO
 
-	uri := k.QueryURI(offset, limit)
+	uri := k.QueryURI(offset,limit)
 	res, err := s.client.get(uri, &zoneld)
-
+	//log.Printf("zones %v",zoneld)
 	zones := []Zone{}
 	for _, zone := range zoneld.Zones {
+	//log.Printf("zone %s",zone.Properties.Name)
 		zones = append(zones, zone)
 	}
+	log.Printf("zones %v",zones)
 	return zones, zoneld.Resultinfo, res, err
 }
