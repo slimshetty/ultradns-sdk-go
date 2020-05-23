@@ -8,8 +8,14 @@ import (
 
 )
 
+
+type ZoneService interface {
+
+	SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error)
+}
+
 // ZoneService provides access to Zone resources
-type ZoneService struct {
+type ZoneServiceHandler struct {
 	client *Client
 }
 
@@ -17,7 +23,7 @@ type ZoneService struct {
 type Zone struct {
 	Properties struct {
 		Name                 string    `json:"name"`
-		AccountName          string    `json:"accountName`
+		AccountName          string    `json:"accountName"`
 		Type                 string    `json:"type"`
 		DnssecStatus         string    `json:"dnssecStatus"`
 		Status               string    `json:"status"`
@@ -56,7 +62,7 @@ func (k ZoneKey) QueryURI(offset int, limit int) string {
 }
 
 // SelectWithOffset requests zone rrsets by ZoneKey & optional offset
-func (s *ZoneService) SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
+func (s *ZoneServiceHandler) SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
 	var zoneld ZoneListDTO
 
 	uri := k.QueryURI(offset,limit)

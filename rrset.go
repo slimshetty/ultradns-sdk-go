@@ -10,8 +10,17 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-// RRSetsService provides access to RRSet resources
-type RRSetsService struct {
+type RRSetsService interface {
+	Select(k RRSetKey) ([]RRSet, error)
+	SelectWithOffset(k RRSetKey, offset int) ([]RRSet, ResultInfo, *http.Response, error)
+	SelectWithOffsetWithLimit(k RRSetKey, offset int, limit int) ([]RRSet, ResultInfo, *http.Response, error)
+	Create(k RRSetKey, rrset RRSet) (*http.Response, error)
+	Update(k RRSetKey, val RRSet) (*http.Response, error)
+	Delete(k RRSetKey) (*http.Response, error)
+}
+
+// RRSetsServiceHandler provides access to RRSet resources
+type RRSetsServiceHandler struct {
 	client *Client
 }
 
@@ -335,7 +344,7 @@ func (k RRSetKey) ProbesQueryURI(query string) string {
 }
 
 // Select will list the zone rrsets, paginating through all available results
-func (s *RRSetsService) Select(k RRSetKey) ([]RRSet, error) {
+func (s *RRSetsServiceHandler) Select(k RRSetKey) ([]RRSet, error) {
 	// TODO: Sane Configuration for timeouts / retries
 	maxerrs := 5
 	waittime := 5 * time.Second
@@ -370,7 +379,7 @@ func (s *RRSetsService) Select(k RRSetKey) ([]RRSet, error) {
 }
 
 // SelectWithOffset requests zone rrsets by RRSetKey & optional offset
-func (s *RRSetsService) SelectWithOffset(k RRSetKey, offset int) ([]RRSet, ResultInfo, *http.Response, error) {
+func (s *RRSetsServiceHandler) SelectWithOffset(k RRSetKey, offset int) ([]RRSet, ResultInfo, *http.Response, error) {
 	var rrsld RRSetListDTO
 
 	uri := k.QueryURI(offset)
@@ -383,36 +392,35 @@ func (s *RRSetsService) SelectWithOffset(k RRSetKey, offset int) ([]RRSet, Resul
 	return rrsets, rrsld.Resultinfo, res, err
 }
 
-// SelectWithOffsetWilthLimit requests zone rrsets by RRSetKey & optional offset & limit 
-func (s *RRSetsService) SelectWithOffsetWithLimit (k RRSetKey, offset int, limit int)  ([]RRSet, ResultInfo, *http.Response, error) {
-        var rrsld RRSetListDTO
+// SelectWithOffsetWilthLimit requests zone rrsets by RRSetKey & optional offset & limit
+func (s *RRSetsServiceHandler) SelectWithOffsetWithLimit(k RRSetKey, offset int, limit int) ([]RRSet, ResultInfo, *http.Response, error) {
+	var rrsld RRSetListDTO
 
-        uri := k.QueryURI(offset)
+	uri := k.QueryURI(offset)
 
-	uri = fmt.Sprintf("%s&limit=%d",uri,limit)
-        res, err := s.client.get(uri, &rrsld)
+	uri = fmt.Sprintf("%s&limit=%d", uri, limit)
+	res, err := s.client.get(uri, &rrsld)
 
-        rrsets := []RRSet{}
-        for _, rrset := range rrsld.Rrsets {
-                rrsets = append(rrsets, rrset)
-        }
-        return rrsets, rrsld.Resultinfo, res, err
+	rrsets := []RRSet{}
+	for _, rrset := range rrsld.Rrsets {
+		rrsets = append(rrsets, rrset)
+	}
+	return rrsets, rrsld.Resultinfo, res, err
 }
 
-
 // Create creates an rrset with val
-func (s *RRSetsService) Create(k RRSetKey, rrset RRSet) (*http.Response, error) {
+func (s *RRSetsServiceHandler) Create(k RRSetKey, rrset RRSet) (*http.Response, error) {
 	var ignored interface{}
 	return s.client.post(k.URI(), rrset, &ignored)
 }
 
 // Update updates a RRSet with the provided val
-func (s *RRSetsService) Update(k RRSetKey, val RRSet) (*http.Response, error) {
+func (s *RRSetsServiceHandler) Update(k RRSetKey, val RRSet) (*http.Response, error) {
 	var ignored interface{}
 	return s.client.put(k.URI(), val, &ignored)
 }
 
 // Delete deletes an RRSet
-func (s *RRSetsService) Delete(k RRSetKey) (*http.Response, error) {
+func (s *RRSetsServiceHandler) Delete(k RRSetKey) (*http.Response, error) {
 	return s.client.delete(k.URI(), nil)
 }
