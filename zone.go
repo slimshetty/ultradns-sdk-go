@@ -4,12 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	_ "time"
-
 )
 
-
 type ZoneService interface {
-
 	SelectWithOffsetWithLimit(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error)
 }
 
@@ -21,22 +18,20 @@ type ZoneServiceHandler struct {
 // Zone wraps an Zone resource
 type Zone struct {
 	Properties struct {
-		Name                 string    `json:"name"`
-		AccountName          string    `json:"accountName"`
-		Type                 string    `json:"type"`
-		DnssecStatus         string    `json:"dnssecStatus"`
-		Status               string    `json:"status"`
-		Owner                string    `json:"owner"`
-		ResourceRecordCount  int       `json:"resourceRecordCount"`
-		LastModifiedDateTime string    `json:"lastModifiedDateTime"`
+		Name                 string `json:"name"`
+		AccountName          string `json:"accountName"`
+		Type                 string `json:"type"`
+		DnssecStatus         string `json:"dnssecStatus"`
+		Status               string `json:"status"`
+		Owner                string `json:"owner"`
+		ResourceRecordCount  int    `json:"resourceRecordCount"`
+		LastModifiedDateTime string `json:"lastModifiedDateTime"`
 	} `json:"properties"`
 	PrimaryNameServers NameServerLists `json:"primaryNameServers"`
 }
 
 type NameServerLists struct {
-
 	NameServerList map[string]interface{} `json:"nameServerIpList"`
-
 }
 
 // ZoneListDTO wraps a list of Zone resources
@@ -71,7 +66,7 @@ func (k ZoneKey) QueryURI(offset int, limit int) string {
 func (s *ZoneServiceHandler) SelectWithOffsetWithLimit(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
 	var zoneld ZoneListDTO
 
-	uri := k.QueryURI(offset,limit)
+	uri := k.QueryURI(offset, limit)
 	res, err := s.client.get(uri, &zoneld)
 	return zoneld.Zones, zoneld.Resultinfo, res, err
 }

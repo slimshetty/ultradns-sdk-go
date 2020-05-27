@@ -385,11 +385,7 @@ func (s *RRSetsServiceHandler) SelectWithOffset(k RRSetKey, offset int) ([]RRSet
 	uri := k.QueryURI(offset)
 	res, err := s.client.get(uri, &rrsld)
 
-	rrsets := []RRSet{}
-	for _, rrset := range rrsld.Rrsets {
-		rrsets = append(rrsets, rrset)
-	}
-	return rrsets, rrsld.Resultinfo, res, err
+	return rrsld.Rrsets, rrsld.Resultinfo, res, err
 }
 
 // SelectWithOffsetWilthLimit requests zone rrsets by RRSetKey & optional offset & limit
@@ -400,12 +396,7 @@ func (s *RRSetsServiceHandler) SelectWithOffsetWithLimit(k RRSetKey, offset int,
 
 	uri = fmt.Sprintf("%s&limit=%d", uri, limit)
 	res, err := s.client.get(uri, &rrsld)
-
-	rrsets := []RRSet{}
-	for _, rrset := range rrsld.Rrsets {
-		rrsets = append(rrsets, rrset)
-	}
-	return rrsets, rrsld.Resultinfo, res, err
+	return rrsld.Rrsets, rrsld.Resultinfo, res, err
 }
 
 // Create creates an rrset with val
