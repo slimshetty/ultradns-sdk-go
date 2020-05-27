@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"net/http"
 	_ "time"
-	"log"
 
 )
 
 
 type ZoneService interface {
 
-	SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error)
+	SelectWithOffsetWithLimit(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error)
 }
 
 // ZoneService provides access to Zone resources
@@ -31,6 +30,13 @@ type Zone struct {
 		ResourceRecordCount  int       `json:"resourceRecordCount"`
 		LastModifiedDateTime string    `json:"lastModifiedDateTime"`
 	} `json:"properties"`
+	PrimaryNameServers NameServerLists `json:"primaryNameServers"`
+}
+
+type NameServerLists struct {
+
+	NameServerList map[string]interface{} `json:"nameServerIpList"`
+
 }
 
 // ZoneListDTO wraps a list of Zone resources
@@ -62,12 +68,10 @@ func (k ZoneKey) QueryURI(offset int, limit int) string {
 }
 
 // SelectWithOffset requests zone rrsets by ZoneKey & optional offset
-func (s *ZoneServiceHandler) SelectWithOffset(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
+func (s *ZoneServiceHandler) SelectWithOffsetWithLimit(k *ZoneKey, offset int, limit int) ([]Zone, ResultInfo, *http.Response, error) {
 	var zoneld ZoneListDTO
 
 	uri := k.QueryURI(offset,limit)
 	res, err := s.client.get(uri, &zoneld)
-	//log.Printf("zones %v",zoneld)
-	log.Printf("zones %v",zoneld.Zones)
 	return zoneld.Zones, zoneld.Resultinfo, res, err
 }
