@@ -68,11 +68,6 @@ func (s *ZoneServiceHandler) SelectWithOffset(k *ZoneKey, offset int, limit int)
 	uri := k.QueryURI(offset,limit)
 	res, err := s.client.get(uri, &zoneld)
 	//log.Printf("zones %v",zoneld)
-	zones := []Zone{}
-	for _, zone := range zoneld.Zones {
-	//log.Printf("zone %s",zone.Properties.Name)
-		zones = append(zones, zone)
-	}
-	log.Printf("zones %v",zones)
-	return zones, zoneld.Resultinfo, res, err
+	log.Printf("zones %v",zoneld.Zones)
+	return zoneld.Zones, zoneld.Resultinfo, res, err
 }
