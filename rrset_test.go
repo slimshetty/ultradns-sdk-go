@@ -9,6 +9,8 @@ import (
 )
 
 func Test_RRSets_SelectPre(t *testing.T) {
+	testClient, err := NewClient(testUsername, testPassword, testBaseURL)
+
 	if !enableIntegrationTests {
 		t.SkipNow()
 	}
@@ -19,7 +21,6 @@ func Test_RRSets_SelectPre(t *testing.T) {
 		t.SkipNow()
 	}
 
-	testClient, err := NewClient(testUsername, testPassword, testBaseURL)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -137,7 +138,7 @@ func Test_RRSets_SelectMid1(t *testing.T) {
 
 	r := RRSetKey{
 		Zone: testDomain,
-		Type: "ANY",
+		Type: "A",
 		Name: testHostname,
 	}
 	t.Logf("Select(%v)", r)
@@ -213,7 +214,7 @@ func Test_RRSets_SelectMid(t *testing.T) {
 
 	r := RRSetKey{
 		Zone: testDomain,
-		Type: "ANY",
+		Type: "A",
 		Name: testHostname,
 	}
 	t.Logf("Select(%v)", r)
@@ -257,7 +258,7 @@ func Test_RRSet_Delete(t *testing.T) {
 
 	r := RRSetKey{
 		Zone: testDomain,
-		Type: "ANY",
+		Type: "A",
 		Name: testHostname,
 	}
 	t.Logf("Select(%v)", r)

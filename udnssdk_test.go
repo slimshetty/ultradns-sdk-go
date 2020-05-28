@@ -37,12 +37,14 @@ var (
 
 	envenableAccountTests         = os.Getenv("ULTRADNS_ENABLE_ACCOUNT_TESTS")
 	envenableRRSetTests           = os.Getenv("ULTRADNS_ENABLE_RRSET_TESTS")
+	envenableZoneTests	      = os.Getenv("ULTRADNS_ENABLE_ZONE_TESTS")
 	envenableProbeTests           = os.Getenv("ULTRADNS_ENABLE_PROBE_TESTS")
 	envenableChanges              = os.Getenv("ULTRADNS_ENABLE_CHANGES")
 	envenableDirectionalPoolTests = os.Getenv("ULTRADNS_ENABLE_DPOOL_TESTS")
 	envEnableIntegrationTests     = os.Getenv("ULTRADNS_ENABLE_INTEGRATION_TESTS")
 	enableAccountTests            = true
 	enableRRSetTests              = true
+	enableZoneTests		      = true
 	enableProbeTests              = true
 	enableChanges                 = true
 	enableDirectionalPoolTests    = false
@@ -115,6 +117,11 @@ func TestMain(m *testing.M) {
 	} else if envenableRRSetTests == "true" || envenableRRSetTests == "1" {
 		enableRRSetTests = true
 	}
+        if envenableZoneTests == "false" || envenableZoneTests == "0" {
+                enableZoneTests = false
+        } else if envenableZoneTests == "true" || envenableZoneTests == "1" {
+                enableZoneTests = true
+        }
 	// TODO: I need a better way of handling this.
 	/*
 		if envenableFUDGETests == "false" || envenableFUDGETests == "0" {
