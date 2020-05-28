@@ -267,10 +267,10 @@ func (k RRSetKey) URI() string {
 	zoneName := strings.Replace(k.Zone,"/","%2F",-1)
 	uri := fmt.Sprintf("zones/%s/rrsets", zoneName)
 	if k.Type != "" {
-		uri += fmt.Sprintf("/%v", k.Type)
+		uri += fmt.Sprintf("/%s", k.Type)
 		if k.Name != "" {
 			ownerName := strings.Replace(k.Name,"/","%2F",-1)
-			uri += fmt.Sprintf("/%v", ownerName)
+			uri += fmt.Sprintf("/%s", ownerName)
 		}
 	}
 	return uri
