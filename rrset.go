@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"strings"
 
 	"github.com/fatih/structs"
 	"github.com/mitchellh/mapstructure"
@@ -263,11 +264,13 @@ type RRSetKey struct {
 
 // URI generates the URI for an RRSet
 func (k RRSetKey) URI() string {
-	uri := fmt.Sprintf("zones/%s/rrsets", k.Zone)
+	zoneName := strings.Replace(k.Zone,"/","%2F",-1)
+	uri := fmt.Sprintf("zones/%s/rrsets", zoneName)
 	if k.Type != "" {
 		uri += fmt.Sprintf("/%v", k.Type)
 		if k.Name != "" {
-			uri += fmt.Sprintf("/%v", k.Name)
+			ownerName := strings.Replace(k.Name,"/","%2F",-1)
+			uri += fmt.Sprintf("/%v", ownerName)
 		}
 	}
 	return uri

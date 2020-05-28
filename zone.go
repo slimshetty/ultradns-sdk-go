@@ -50,7 +50,8 @@ type ZoneKey struct {
 
 // URI generates the URI for an Zone
 func (k ZoneKey) URI() string {
-	uri := fmt.Sprintf("zones/?&q=name:%s", k.Zone)
+	zoneName := strings.Replace(k.Zone,"/","%2F",-1)
+	uri := fmt.Sprintf("zones/?&q=name:%s", zoneName)
 	if k.AccountName != "" {
 		accountName := strings.Replace(k.AccountName, " ", "%2520", -1)
 		uri += fmt.Sprintf("+account_name:%s", accountName)
