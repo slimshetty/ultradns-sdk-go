@@ -3,6 +3,7 @@ package udnssdk
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	_ "time"
 )
 
@@ -51,7 +52,8 @@ type ZoneKey struct {
 func (k ZoneKey) URI() string {
 	uri := fmt.Sprintf("zones/?&q=name:%s", k.Zone)
 	if k.AccountName != "" {
-		uri += fmt.Sprintf("+account_name:%s", k.AccountName)
+		accountName := strings.Replace(k.AccountName, " ", "%2520", -1)
+		uri += fmt.Sprintf("+account_name:%s", accountName)
 	}
 	return uri
 }

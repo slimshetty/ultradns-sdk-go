@@ -2,10 +2,11 @@ package udnssdk
 
 import (
 	_ "encoding/json"
+	"github.com/stretchr/testify/assert"
 	"log"
 	_ "os"
 	_ "reflect"
-	_ "strings"
+	"strings"
 	"testing"
 	"time"
 )
@@ -201,4 +202,17 @@ func Test_Zone_InvalidAccount(t *testing.T) {
 
 		}
 	}
+}
+
+// Trying to run testcase for QueryURI Function
+func Test_Zone_AccountNameWithSpace(t *testing.T) {
+	assert := assert.New(t)
+	accountName := "team%2520rest1"
+	r := &ZoneKey{
+		AccountName: "team rest1",
+	}
+	uri := r.QueryURI(0, 100)
+	t.Logf("URI: %s", uri)
+	accountCheck := strings.Contains(uri, accountName)
+	assert.Equal(true, accountCheck, "Both should be true")
 }
