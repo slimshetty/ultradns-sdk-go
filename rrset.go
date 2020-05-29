@@ -27,12 +27,10 @@ type RRSetsServiceHandler struct {
 
 // Here is the big 'Profile' mess that should get refactored to a more managable place
 
-// ProfileSchema are the schema URIs for RRSet Profiles
-type ProfileSchema string
 
 const (
 	// DirPoolSchema is the schema URI for a Directional pool profile
-	DirPoolSchema ProfileSchema = "http://schemas.ultradns.com/DirPool.jsonschema"
+	DirPoolSchema  = "http://schemas.ultradns.com/DirPool.jsonschema"
 	// RDPoolSchema is the schema URI for a Resource Distribution pool profile
 	RDPoolSchema = "http://schemas.ultradns.com/RDPool.jsonschema"
 	// SBPoolSchema is the schema URI for a SiteBacker pool profile
@@ -45,8 +43,8 @@ const (
 type RawProfile map[string]interface{}
 
 // Context extracts the schema context from a RawProfile
-func (rp RawProfile) Context() ProfileSchema {
-	return ProfileSchema(rp["@context"].(string))
+func (rp RawProfile) Context() string {
+	return rp["@context"].(string)
 }
 
 // GetProfileObject extracts the full Profile by its schema type
@@ -159,7 +157,7 @@ func (p TCPoolProfile) RawProfile() RawProfile {
 
 // DirPoolProfile wraps a Profile for a Directional Pool
 type DirPoolProfile struct {
-	Context         ProfileSchema `json:"@context"`
+	Context         string `json:"@context"`
 	Description     string        `json:"description"`
 	ConflictResolve string        `json:"conflictResolve,omitempty"`
 	RDataInfo       []DPRDataInfo `json:"rdataInfo"`
@@ -190,14 +188,14 @@ type GeoInfo struct {
 
 // RDPoolProfile wraps a Profile for a Resource Distribution pool
 type RDPoolProfile struct {
-	Context     ProfileSchema `json:"@context"`
+	Context     string `json:"@context"`
 	Order       string        `json:"order"`
 	Description string        `json:"description"`
 }
 
 // SBPoolProfile wraps a Profile for a SiteBacker pool
 type SBPoolProfile struct {
-	Context       ProfileSchema  `json:"@context"`
+	Context       string  `json:"@context"`
 	Description   string         `json:"description"`
 	RunProbes     bool           `json:"runProbes"`
 	ActOnProbes   bool           `json:"actOnProbes"`
@@ -228,7 +226,7 @@ type BackupRecord struct {
 
 // TCPoolProfile wraps a Profile for a Traffic Controller pool
 type TCPoolProfile struct {
-	Context      ProfileSchema `json:"@context"`
+	Context      string `json:"@context"`
 	Description  string        `json:"description"`
 	RunProbes    bool          `json:"runProbes"`
 	ActOnProbes  bool          `json:"actOnProbes"`

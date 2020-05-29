@@ -317,7 +317,7 @@ func Test_RRSet_SelectPost(t *testing.T) {
 func Test_DirPoolProfile_RawProfile(t *testing.T) {
 	p := DirPoolProfile{}
 	expected := RawProfile{
-		"@context":    ProfileSchema(""),
+		"@context":    "",
 		"description": "",
 		// "rdataInfo":   []DPRDataInfo(nil),
 		"rdataInfo": []interface{}{},
@@ -343,7 +343,7 @@ func Test_DirPoolProfile_RawProfile(t *testing.T) {
 func Test_RDPoolProfile_RawProfile(t *testing.T) {
 	p := RDPoolProfile{}
 	expected := RawProfile{
-		"@context":    ProfileSchema(""),
+		"@context":    "",
 		"description": "",
 		"order":       "",
 	}
@@ -368,7 +368,7 @@ func Test_RDPoolProfile_RawProfile(t *testing.T) {
 func Test_SBPoolProfile_RawProfile(t *testing.T) {
 	p := SBPoolProfile{}
 	expected := RawProfile{
-		"@context":    ProfileSchema(""),
+		"@context":    "",
 		"description": "",
 		"actOnProbes": false,
 		// "rdataInfo":   []SBRDataInfo(nil),
@@ -424,7 +424,7 @@ func Test_RawProfile_TCPoolProfile(t *testing.T) {
 func Test_TCPoolProfile_RawProfile(t *testing.T) {
 	input := TCPoolProfile{}
 	expected := RawProfile{
-		"@context":    ProfileSchema(""),
+		"@context":    "",
 		"description": "",
 		"actOnProbes": false,
 		// "rdataInfo":   []SBRDataInfo(nil),
