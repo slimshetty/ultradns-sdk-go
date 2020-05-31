@@ -147,8 +147,9 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 			return nil, err
 		}
 	}
-
-	req, err := http.NewRequest(method, url.String(), body)
+	
+	urlString := strings.Replace(url.String(),"%252F","%2F",-1)
+	req, err := http.NewRequest(method, urlString, body)
 	if err != nil {
 		return nil, err
 	}
