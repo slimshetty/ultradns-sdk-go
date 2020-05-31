@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/fatih/structs"
 	"github.com/mitchellh/mapstructure"
@@ -27,10 +27,12 @@ type RRSetsServiceHandler struct {
 
 // Here is the big 'Profile' mess that should get refactored to a more managable place
 
+// ProfileSchema are the schema URIs for RRSet Profiles
+type ProfileSchema string
 
 const (
 	// DirPoolSchema is the schema URI for a Directional pool profile
-	DirPoolSchema  = "http://schemas.ultradns.com/DirPool.jsonschema"
+	DirPoolSchema ProfileSchema = "http://schemas.ultradns.com/DirPool.jsonschema"
 	// RDPoolSchema is the schema URI for a Resource Distribution pool profile
 	RDPoolSchema = "http://schemas.ultradns.com/RDPool.jsonschema"
 	// SBPoolSchema is the schema URI for a SiteBacker pool profile
@@ -43,8 +45,8 @@ const (
 type RawProfile map[string]interface{}
 
 // Context extracts the schema context from a RawProfile
-func (rp RawProfile) Context() string {
-	return rp["@context"].(string)
+func (rp RawProfile) Context() ProfileSchema {
+	return ProfileSchema(rp["@context"].(string))
 }
 
 // GetProfileObject extracts the full Profile by its schema type
@@ -157,7 +159,7 @@ func (p TCPoolProfile) RawProfile() RawProfile {
 
 // DirPoolProfile wraps a Profile for a Directional Pool
 type DirPoolProfile struct {
-	Context         string `json:"@context"`
+	Context         ProfileSchema `json:"@context"`
 	Description     string        `json:"description"`
 	ConflictResolve string        `json:"conflictResolve,omitempty"`
 	RDataInfo       []DPRDataInfo `json:"rdataInfo"`
@@ -188,14 +190,14 @@ type GeoInfo struct {
 
 // RDPoolProfile wraps a Profile for a Resource Distribution pool
 type RDPoolProfile struct {
-	Context     string `json:"@context"`
+	Context     ProfileSchema `json:"@context"`
 	Order       string        `json:"order"`
 	Description string        `json:"description"`
 }
 
 // SBPoolProfile wraps a Profile for a SiteBacker pool
 type SBPoolProfile struct {
-	Context       string  `json:"@context"`
+	Context       ProfileSchema  `json:"@context"`
 	Description   string         `json:"description"`
 	RunProbes     bool           `json:"runProbes"`
 	ActOnProbes   bool           `json:"actOnProbes"`
@@ -226,7 +228,7 @@ type BackupRecord struct {
 
 // TCPoolProfile wraps a Profile for a Traffic Controller pool
 type TCPoolProfile struct {
-	Context      string `json:"@context"`
+	Context      ProfileSchema `json:"@context"`
 	Description  string        `json:"description"`
 	RunProbes    bool          `json:"runProbes"`
 	ActOnProbes  bool          `json:"actOnProbes"`
@@ -262,12 +264,12 @@ type RRSetKey struct {
 
 // URI generates the URI for an RRSet
 func (k RRSetKey) URI() string {
-	zoneName := strings.Replace(k.Zone,"/","%2F",-1)
+	zoneName := strings.Replace(k.Zone, "/", "%2F", -1)
 	uri := fmt.Sprintf("zones/%s/rrsets", zoneName)
 	if k.Type != "" {
 		uri += fmt.Sprintf("/%s", k.Type)
 		if k.Name != "" {
-			ownerName := strings.Replace(k.Name,"/","%2F",-1)
+			ownerName := strings.Replace(k.Name, "/", "%2F", -1)
 			uri += fmt.Sprintf("/%s", ownerName)
 		}
 	}
