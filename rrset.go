@@ -34,7 +34,7 @@ const (
 	// DirPoolSchema is the schema URI for a Directional pool profile
 	DirPoolSchema ProfileSchema = "http://schemas.ultradns.com/DirPool.jsonschema"
 	// RDPoolSchema is the schema URI for a Resource Distribution pool profile
-	RDPoolSchema ProfileSchema = "http://schemas.ultradns.com/RDPool.jsonschema"
+	RDPoolSchema = "http://schemas.ultradns.com/RDPool.jsonschema"
 	// SBPoolSchema is the schema URI for a SiteBacker pool profile
 	SBPoolSchema = "http://schemas.ultradns.com/SBPool.jsonschema"
 	// TCPoolSchema is the schema URI for a Traffic Controller pool profile
@@ -46,7 +46,7 @@ type RawProfile map[string]interface{}
 
 // Context extracts the schema context from a RawProfile
 func (rp RawProfile) Context() ProfileSchema {
-	return ProfileSchema(rp["@context"].(ProfileSchema))
+	return ProfileSchema(rp["@context"].(string))
 }
 
 // GetProfileObject extracts the full Profile by its schema type
