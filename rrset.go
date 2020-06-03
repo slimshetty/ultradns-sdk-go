@@ -215,7 +215,7 @@ type SBRDataInfo struct {
 	Priority         int    `json:"priority"`
 	FailoverDelay    int    `json:"failoverDelay,omitempty"`
 	Threshold        int    `json:"threshold"`
-	Weight           int    `json:"weight"`
+	Weight           interface{}    `json:"weight"`
 	AvailableToServe bool   `json:"availableToServe,omitempty"`
 }
 
