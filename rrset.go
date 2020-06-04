@@ -369,11 +369,11 @@ func (s *RRSetsServiceHandler) Select(k RRSetKey) ([]RRSet, error) {
 			return rrsets, err
 		}
 
-		log.Printf("ResultInfo: %+v\n", ri)
 		for _, rrset := range reqRrsets {
 			rrsets = append(rrsets, rrset)
 		}
 		if ri.ReturnedCount+ri.Offset >= ri.TotalCount {
+	                log.Printf("ResultInfo: %+v\n", ri)
 			return rrsets, nil
 		}
 		offset = ri.ReturnedCount + ri.Offset
