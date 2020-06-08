@@ -221,12 +221,21 @@ func Test_CheckResponse_StatusCode4xx(t *testing.T) {
 // Testcase for checking up the escaping character "/"
 func Test_EscapeCharacter_Zone(t *testing.T) {
 
-	if !enableIntegrationTests {
-		t.SkipNow()
-	}
-
 	testClient, _ := NewClient(testUsername, testPassword, testBaseURL)
 	req, _ := testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
 	assert.Equal(t, req.URL.RawPath, "/v1/https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY")
 
+}
+
+func Test_CustomHeader(t *testing.T){
+
+	testClient, _ := NewClient("","","")	
+	SetCustomHeader = CustomHeader{
+                        Key: "UltraClient",
+                        Value: "KubeClient",
+                }
+
+	req, _:= testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
+	
+	assert.Equal(t,req.Header.Get("UltraClient"),"KubeClient")
 }

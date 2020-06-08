@@ -32,6 +32,14 @@ const (
 	apiVersion = "v1"
 )
 
+type CustomHeader struct {
+	Key string
+	Value string
+}
+
+var SetCustomHeader CustomHeader
+
+
 // QueryInfo wraps a query request
 type QueryInfo struct {
 	Q       string `json:"q"`
@@ -157,6 +165,11 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("User-Agent", c.UserAgent)
+	
+	if (SetCustomHeader != CustomHeader{}){
+		req.Header.Add(SetCustomHeader.Key,SetCustomHeader.Value)
+		
+	}	
 
 	return req, nil
 }
