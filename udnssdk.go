@@ -28,8 +28,6 @@ const (
 	DefaultLiveBaseURL = "https://restapi.ultradns.com/"
 
 	userAgent = "udnssdk-go/" + libraryVersion
-
-	apiVersion = "v1"
 )
 
 type CustomHeader struct {
@@ -37,7 +35,7 @@ type CustomHeader struct {
 	Value string
 }
 
-var SetCustomHeader CustomHeader
+var SetCustomHeader []CustomHeader{}
 
 
 // QueryInfo wraps a query request
@@ -143,7 +141,7 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	url := *c.BaseURL
 
 	pq := strings.SplitN(pathquery, "?", 2)
-	url.Path = url.Path + fmt.Sprintf("%s/%s", apiVersion, pq[0])
+	url.Path = url.Path + fmt.Sprintf("%s", pq[0])
 	if len(pq) == 2 {
 		url.RawQuery = pq[1]
 	}
@@ -155,7 +153,7 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 			return nil, err
 		}
 	}
-
+	// Reverting back the URL encoding of modulo(%) as we don't require to encode (%)
 	urlString := strings.Replace(url.String(), "%252F", "%2F", -1)
 	req, err := http.NewRequest(method, urlString, body)
 	if err != nil {
@@ -166,9 +164,10 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("User-Agent", c.UserAgent)
 	
-	if (SetCustomHeader != CustomHeader{}){
-		req.Header.Add(SetCustomHeader.Key,SetCustomHeader.Value)
-		
+	if (SetCustomHeader != []CustomHeader{}){
+		for _, customHeader := range  SetCustomHeader{
+			req.Header.Add(customHeader.Key,customHeader.Value)
+		}
 	}	
 
 	return req, nil

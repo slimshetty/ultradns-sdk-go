@@ -230,12 +230,24 @@ func Test_EscapeCharacter_Zone(t *testing.T) {
 func Test_CustomHeader(t *testing.T){
 
 	testClient, _ := NewClient("","","")	
-	SetCustomHeader = CustomHeader{
+	SetCustomHeader = []CustomHeader{
+		CustomHeader {
                         Key: "UltraClient",
                         Value: "KubeClient",
-                }
+					}
+	}
 
 	req, _:= testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
 	
 	assert.Equal(t,req.Header.Get("UltraClient"),"KubeClient")
+}
+
+func Test_EmptyCustomHeader(t *testing.T){
+	
+	testClient, _ := NewClient("","","")	
+	SetCustomHeader = []CustomHeader{}
+
+	req, _:= testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
+	
+	assert.Nil(t,req.Header.Get("UltraClient"))
 }
