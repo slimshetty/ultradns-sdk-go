@@ -35,7 +35,7 @@ type CustomHeader struct {
 	Value string
 }
 
-var SetCustomHeader []CustomHeader{}
+var SetCustomHeader []CustomHeader
 
 
 // QueryInfo wraps a query request
@@ -164,7 +164,7 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("User-Agent", c.UserAgent)
 	
-	if (SetCustomHeader != []CustomHeader{}){
+	if ( len(SetCustomHeader) != 0 ){
 		for _, customHeader := range  SetCustomHeader{
 			req.Header.Add(customHeader.Key,customHeader.Value)
 		}

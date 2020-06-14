@@ -210,13 +210,13 @@ type SBPoolProfile struct {
 
 // SBRDataInfo wraps the rdataInfo object of a SBPoolProfile
 type SBRDataInfo struct {
-	State            string `json:"state"`
-	RunProbes        bool   `json:"runProbes"`
-	Priority         int    `json:"priority"`
-	FailoverDelay    int    `json:"failoverDelay,omitempty"`
-	Threshold        int    `json:"threshold"`
-	Weight           interface{}    `json:"weight"`
-	AvailableToServe bool   `json:"availableToServe,omitempty"`
+	State            string      `json:"state"`
+	RunProbes        bool        `json:"runProbes"`
+	Priority         int         `json:"priority"`
+	FailoverDelay    int         `json:"failoverDelay,omitempty"`
+	Threshold        int         `json:"threshold"`
+	Weight           interface{} `json:"weight"`
+	AvailableToServe bool        `json:"availableToServe,omitempty"`
 }
 
 // BackupRecord wraps the backupRecord objects of an SBPoolProfile response
@@ -373,7 +373,7 @@ func (s *RRSetsServiceHandler) Select(k RRSetKey) ([]RRSet, error) {
 			rrsets = append(rrsets, rrset)
 		}
 		if ri.ReturnedCount+ri.Offset >= ri.TotalCount {
-	                log.Printf("ResultInfo: %+v\n", ri)
+			log.Printf("ResultInfo: %+v\n", ri)
 			return rrsets, nil
 		}
 		offset = ri.ReturnedCount + ri.Offset
