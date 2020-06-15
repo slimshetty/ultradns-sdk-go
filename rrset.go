@@ -264,11 +264,13 @@ type RRSetKey struct {
 
 // URI generates the URI for an RRSet
 func (k RRSetKey) URI() string {
+	// Escaping Reverse Domain
 	zoneName := strings.Replace(k.Zone, "/", "%2F", -1)
 	uri := fmt.Sprintf("zones/%s/rrsets", zoneName)
 	if k.Type != "" {
 		uri += fmt.Sprintf("/%s", k.Type)
 		if k.Name != "" {
+			// Escaping Reverse Domain
 			ownerName := strings.Replace(k.Name, "/", "%2F", -1)
 			uri += fmt.Sprintf("/%s", ownerName)
 		}
