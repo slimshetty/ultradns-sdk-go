@@ -59,11 +59,9 @@ func Test_Zone_SelectWithOffsetWithLimit_WithZoneKey(t *testing.T) {
 		}
 		offset = ri.ReturnedCount + ri.Offset
 		continue
-		if err != nil {
-			t.Fatal(err)
-		}
 
 	}
+	assert.Equal(t,zones[0].Properties.Name,testDomain)
 
 }
 
@@ -112,10 +110,7 @@ func Test_Zone_SelectWithOffsetWithLimit_WithOutAnyValue(t *testing.T) {
 		offset = ri.ReturnedCount + ri.Offset
 		continue
 	}
-
-	if err != nil {
-		t.Fatal(err)
-	}
+	assert.NotNil(t,zones)
 }
 
 // Trying to run function with account or zone not found
@@ -136,29 +131,10 @@ func Test_Zone_InvalidZone(t *testing.T) {
 		Zone: "abcdef-test23.com",
 	}
 	t.Logf("SelectWithOffsetWithLimit(%v)", r)
-	maxerrs := 5
-	waittime := 5 * time.Second
-	errcnt := 0
 	offset := 0
 	limit := 1000
-
-	for {
-		_, _, res, err := testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
-		if err != nil {
-			if res != nil && (res.StatusCode >= 500) {
-				errcnt = errcnt + 1
-				if errcnt < maxerrs {
-					time.Sleep(waittime)
-					continue
-				}
-			}
-			t.Logf("%v", err)
-			return
-		} else {
-			t.Fatal(" Expected to fail")
-
-		}
-	}
+	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
+	assert.NotNil(t,err)
 }
 
 // Trying to run function with account not found
@@ -179,29 +155,12 @@ func Test_Zone_InvalidAccount(t *testing.T) {
 		AccountName: "sddsfffrefref",
 	}
 	t.Logf("SelectWithOffsetWithLimit(%v)", r)
-	maxerrs := 5
-	waittime := 5 * time.Second
-	errcnt := 0
 	offset := 0
 	limit := 1000
 
-	for {
-		_, _, res, err := testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
-		if err != nil {
-			if res != nil && (res.StatusCode >= 500) {
-				errcnt = errcnt + 1
-				if errcnt < maxerrs {
-					time.Sleep(waittime)
-					continue
-				}
-			}
-			t.Logf("%v", err)
-			return
-		} else {
-			t.Fatal(" Expected to fail")
+	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
+        assert.NotNil(t,err)
 
-		}
-	}
 }
 
 // Trying to run testcase for QueryURI Function
