@@ -240,11 +240,11 @@ type TCPoolProfile struct {
 
 // RRSet wraps an RRSet resource
 type RRSet struct {
-	OwnerName string      `json:"ownerName"`
-	RRType    string      `json:"rrtype"`
-	TTL       interface{} `json:"ttl"`
-	RData     []string    `json:"rdata"`
-	Profile   RawProfile  `json:"profile,omitempty"`
+	OwnerName string     `json:"ownerName"`
+	RRType    string     `json:"rrtype"`
+	TTL       int        `json:"ttl,omitempty"`
+	RData     []string   `json:"rdata"`
+	Profile   RawProfile `json:"profile,omitempty"`
 }
 
 // RRSetListDTO wraps a list of RRSet resources
