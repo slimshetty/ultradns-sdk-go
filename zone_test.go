@@ -61,7 +61,7 @@ func Test_Zone_SelectWithOffsetWithLimit_WithZoneKey(t *testing.T) {
 		continue
 
 	}
-	assert.Equal(t,zones[0].Properties.Name,testDomain)
+	assert.Equal(t, zones[0].Properties.Name, testDomain)
 
 }
 
@@ -110,7 +110,7 @@ func Test_Zone_SelectWithOffsetWithLimit_WithOutAnyValue(t *testing.T) {
 		offset = ri.ReturnedCount + ri.Offset
 		continue
 	}
-	assert.NotNil(t,zones)
+	assert.NotNil(t, zones)
 }
 
 // Trying to run function with account or zone not found
@@ -134,7 +134,7 @@ func Test_Zone_InvalidZone(t *testing.T) {
 	offset := 0
 	limit := 1000
 	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
-	assert.NotNil(t,err)
+	assert.NotNil(t, err)
 }
 
 // Trying to run function with account not found
@@ -159,7 +159,7 @@ func Test_Zone_InvalidAccount(t *testing.T) {
 	limit := 1000
 
 	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
-        assert.NotNil(t,err)
+	assert.NotNil(t, err)
 
 }
 

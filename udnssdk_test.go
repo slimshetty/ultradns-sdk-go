@@ -217,7 +217,6 @@ func Test_CheckResponse_StatusCode4xx(t *testing.T) {
 	}
 }
 
-
 // Testcase for checking up the escaping character "/"
 func Test_EscapeCharacter_Zone(t *testing.T) {
 
@@ -227,27 +226,27 @@ func Test_EscapeCharacter_Zone(t *testing.T) {
 
 }
 
-func Test_CustomHeader(t *testing.T){
+func Test_CustomHeader(t *testing.T) {
 
-	testClient, _ := NewClient("","","")	
+	testClient, _ := NewClient("", "", "")
 	SetCustomHeader = []CustomHeader{
-		CustomHeader {
-                        Key: "UltraClient",
-                        Value: "KubeClient",
-			},
+		CustomHeader{
+			Key:   "UltraClient",
+			Value: "KubeClient",
+		},
 	}
 
-	req, _:= testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
-	
-	assert.Equal(t,req.Header.Get("UltraClient"),"KubeClient")
+	req, _ := testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
+
+	assert.Equal(t, req.Header.Get("UltraClient"), "KubeClient")
 }
 
-func Test_EmptyCustomHeader(t *testing.T){
-	
-	testClient, _ := NewClient("","","")	
+func Test_EmptyCustomHeader(t *testing.T) {
+
+	testClient, _ := NewClient("", "", "")
 	SetCustomHeader = []CustomHeader{}
 
-	req, _:= testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
-	
-	assert.Equal(t,req.Header.Get("UltraClient"),"")
+	req, _ := testClient.NewRequest("GET", "https://api.test.ultradns.net/zones/0%2F1.70.78.208.in-addr.arpa./rrsets/ANY?&offset=0&limit=1000", RRSetListDTO{})
+
+	assert.Equal(t, req.Header.Get("UltraClient"), "")
 }

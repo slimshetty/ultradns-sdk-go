@@ -31,12 +31,11 @@ const (
 )
 
 type CustomHeader struct {
-	Key string
+	Key   string
 	Value string
 }
 
 var SetCustomHeader []CustomHeader
-
 
 // QueryInfo wraps a query request
 type QueryInfo struct {
@@ -163,12 +162,12 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("User-Agent", c.UserAgent)
-	
-	if ( len(SetCustomHeader) != 0 ){
-		for _, customHeader := range  SetCustomHeader{
-			req.Header.Add(customHeader.Key,customHeader.Value)
+
+	if len(SetCustomHeader) != 0 {
+		for _, customHeader := range SetCustomHeader {
+			req.Header.Add(customHeader.Key, customHeader.Value)
 		}
-	}	
+	}
 
 	return req, nil
 }

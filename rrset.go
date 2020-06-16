@@ -242,7 +242,7 @@ type TCPoolProfile struct {
 type RRSet struct {
 	OwnerName string     `json:"ownerName"`
 	RRType    string     `json:"rrtype"`
-	TTL       int        `json:"ttl"`
+	TTL       int        `json:"ttl,omitempty"`
 	RData     []string   `json:"rdata"`
 	Profile   RawProfile `json:"profile,omitempty"`
 }
