@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Describe the bug or the context for your support request**
-Please provide details of the problem, including the version of ReplaceMe that you
+Please provide details of the problem, including the version of ultradns-sdk-go that you
 are using, if applicable.
 
 **Sample**
@@ -18,4 +18,4 @@ we have fixed it.
 
 **Contact**
 
-After you have created the issue, please feel free to contact UltraDNS Client Support team via https://www.home.neustar/support to further discuss your request.
+After you have created the issue, please feel free to contact UltraDNS Client Support team via [https://www.home.neustar/support](https://www.home.neustar/support) to further discuss your request.
