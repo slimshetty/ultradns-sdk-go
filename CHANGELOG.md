@@ -13,15 +13,15 @@ ENHANCEMENTS:
 * rrset: Added interfaces in RRSet service to make it more extensible and now it enables us to mock it.
 * rrset: Added additional function in RRSet service to get resource records with "limits" and "offsets".
 * rrset: Included client name as an identifier while creation of resources in UltraDNS.
-* rrset: Added functional unit testcases in existing ones.
-* zone: Handled special character while creating, & reading resources which are permitted in UltraDNS .
+* rrset: Added functional unit testcases.
+* zone: Handled special character while creating & reading resources which are permitted in UltraDNS.
 * zone: Added integration testcases & unit testcases.
-* udnssdk: Included service to turn on integration for zone service
+* udnssdk: Included service to turn on integration tests for zone service
 
 BUG FIXES:
-* rrset: Handled special character while creating, & reading resources which are permitted in UltraDNS .
+* rrset: Handled special character while creating & reading resources which are permitted in UltraDNS.
 * rrset: Fixed SBPoolProfile so the weight parameter does not get set when it's empty.
-* udnssdk: Removed API version dependency now it should work with the latest API.
+* udnssdk: Removed API version dependency to make it work with the latest API.
 * resource/ultradns_probe_http: Resolved compatibility errors for the specified resource.
 
 ## [1.3.5] - 2020-04-14
