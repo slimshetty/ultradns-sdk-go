@@ -3,7 +3,28 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-## [1.3.5]
+## [1.3.7] 
+BUG FIXES:
+* rrset: Added "TTL" field in DirPoolProfile to make it compatible with DirPoolDTO.
+
+## [1.3.6] - 2020-06-17
+ENHANCEMENTS:
+* zone: Added Zone DTO to provide "Zone Services" currently, it support reading zones.
+* rrset: Added interfaces in RRSet service to make it more extensible and now it enables us to mock it.
+* rrset: Added additional function in RRSet service to get resource records with "limits" and "offsets".
+* rrset: Included client name as an identifier while creation of resources in UltraDNS.
+* rrset: Added functional unit testcases in existing ones.
+* zone: Handled special character while creating, & reading resources which are permitted in UltraDNS .
+* zone: Added integration testcases & unit testcases.
+* udnssdk: Included service to turn on integration for zone service
+
+BUG FIXES:
+* rrset: Handled special character while creating, & reading resources which are permitted in UltraDNS .
+* rrset: Fixed SBPoolProfile so the weight parameter does not get set when it's empty.
+* udnssdk: Removed API version dependency now it should work with the latest API.
+* resource/ultradns_probe_http: Resolved compatibility errors for the specified resource.
+
+## [1.3.5] - 2020-04-14
 - Added 'availableToServe' to BackupRecord DTO
 - Added 'status' to TCPool profile DTO
 - Improved the testing steps used latest `go 1.14` and `go mod`
@@ -65,7 +86,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Support for API endpoints for `RRSets`, `Accounts`,  `DirectionalPools`, Traffic Controller Pool `Probes`, `Events`, `Notifications` & `Alerts`
 * `Client` wraps common API access including OAuth, deferred tasks and retries
 
-[Unreleased]: https://github.com/Ensighten/udnssdk/compare/v1.3.2...HEAD
+
 [1.3.2]: https://github.com/Ensighten/udnssdk/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/Ensighten/udnssdk/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/Ensighten/udnssdk/compare/v1.2.1...v1.3.0
