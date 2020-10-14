@@ -12,11 +12,11 @@ BUG FIXES:
 ENHANCEMENTS:
 * Zone:
   - Zone DTO now includes Zone Services that enables reading (GET) of zones.
-  - Special Characters are now allowed when creating (POST) or reading (GET) resources.
+  - Special Characters are now allowed when reading (GET) resources.
   - Integration and Unit testcases have been added.
 
 * Rrset:
-  - Support the use of “limits” and “offsets” for pagination.
+  - Now supports the use of “limits” and “offset” for pagination. 
   - Client Name is now used as an identifier during create (POST) calls.
   - Added interfaces in RRSet service as to make it mockable in unit tests.
   - Added additional unit testcases to comply with coding conventions.
@@ -26,7 +26,7 @@ ENHANCEMENTS:
 
 BUG FIXES:
 * Rrset 
-  - Special characters are now supported when creating (Post) and reading (Get) other resources.
+  - Special characters are now supported when creating (POST) and reading (GET) other resources.
   - In the SBPoolProfile, the weight parameter will not be set by default when left empty.
 * Udnssdk
   - API version dependency has been removed allowing for compatibility with latest API.
