@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ## [1.3.7] 
 BUG FIXES:
-* Rrset:
+* Resource Rrset:
   - Added "TTL" field in DirPoolProfile to make it compatible with DirPoolDTO.
 
 ## [1.3.6] - 2020-06-17
