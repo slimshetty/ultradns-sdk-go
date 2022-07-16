@@ -2,13 +2,14 @@ package udnssdk
 
 import (
 	_ "encoding/json"
-	"github.com/stretchr/testify/assert"
 	"log"
 	_ "os"
 	_ "reflect"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // Trying to run SelectWithOffsetWithLimit function
@@ -33,11 +34,11 @@ func Test_Zone_SelectWithOffsetWithLimit_WithZoneKey(t *testing.T) {
 	maxerrs := 5
 	waittime := 5 * time.Second
 	errcnt := 0
-	offset := 0
+	page := ""
 	limit := 1000
 
 	for {
-		reqZones, ri, res, err := testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
+		reqZones, ri, res, err := testClient.Zone.SelectWithOffsetWithLimit(r, page, limit)
 		if err != nil {
 			if res != nil && (res.StatusCode >= 500) {
 				errcnt = errcnt + 1
@@ -53,12 +54,14 @@ func Test_Zone_SelectWithOffsetWithLimit_WithZoneKey(t *testing.T) {
 		for _, zone := range reqZones {
 			zones = append(zones, zone)
 		}
-		if ri.ReturnedCount+ri.Offset >= ri.TotalCount {
+
+		if ri.Next == "" {
 			t.Logf("zones: %v", zones)
 			return
+		} else {
+			page = ri.Next
+			continue
 		}
-		offset = ri.ReturnedCount + ri.Offset
-		continue
 
 	}
 	assert.Equal(t, zones[0].Properties.Name, testDomain)
@@ -83,11 +86,11 @@ func Test_Zone_SelectWithOffsetWithLimit_WithOutAnyValue(t *testing.T) {
 	maxerrs := 5
 	waittime := 5 * time.Second
 	errcnt := 0
-	offset := 0
+	page := ""
 	limit := 1000
 
 	for {
-		reqZones, ri, res, err := testClient.Zone.SelectWithOffsetWithLimit(&ZoneKey{}, offset, limit)
+		reqZones, ri, res, err := testClient.Zone.SelectWithOffsetWithLimit(&ZoneKey{}, page, limit)
 		if err != nil {
 			if res != nil && (res.StatusCode >= 500) {
 				errcnt = errcnt + 1
@@ -103,12 +106,13 @@ func Test_Zone_SelectWithOffsetWithLimit_WithOutAnyValue(t *testing.T) {
 		for _, zone := range reqZones {
 			zones = append(zones, zone)
 		}
-		if ri.ReturnedCount+ri.Offset >= ri.TotalCount {
+		if ri.Next == "" {
 			t.Logf("zones: %v", zones)
 			return
+		} else {
+			page = ri.Next
+			continue
 		}
-		offset = ri.ReturnedCount + ri.Offset
-		continue
 	}
 	assert.NotNil(t, zones)
 }
@@ -131,9 +135,9 @@ func Test_Zone_InvalidZone(t *testing.T) {
 		Zone: "abcdef-test23.com",
 	}
 	t.Logf("SelectWithOffsetWithLimit(%v)", r)
-	offset := 0
+	page := ""
 	limit := 1000
-	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
+	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, page, limit)
 	assert.NotNil(t, err)
 }
 
@@ -155,10 +159,10 @@ func Test_Zone_InvalidAccount(t *testing.T) {
 		AccountName: "sddsfffrefref",
 	}
 	t.Logf("SelectWithOffsetWithLimit(%v)", r)
-	offset := 0
+	page := ""
 	limit := 1000
 
-	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, offset, limit)
+	_, _, _, err = testClient.Zone.SelectWithOffsetWithLimit(r, page, limit)
 	assert.NotNil(t, err)
 
 }
@@ -170,7 +174,7 @@ func Test_Zone_AccountNameWithSpace(t *testing.T) {
 	r := &ZoneKey{
 		AccountName: "team rest1",
 	}
-	uri := r.QueryURI(0, 100)
+	uri := r.QueryURI("", 100)
 	t.Logf("URI: %s", uri)
 	accountCheck := strings.Contains(uri, accountName)
 	assert.Equal(true, accountCheck, "Both should be true")
